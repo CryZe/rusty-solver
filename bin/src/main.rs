@@ -6,6 +6,8 @@ extern crate opengl_graphics;
 extern crate image;
 extern crate palette;
 
+mod switchable_boundary_condition;
+
 use solver::prelude::*;
 use solver::differential_equation::ThermalConduction;
 use solver::precondition::ConstantPreCondition;
@@ -20,6 +22,8 @@ use opengl_graphics::{GlGraphics, OpenGL, Texture};
 use graphics::Transformed;
 use image::RgbaImage;
 use palette::{Gradient, Hsv, Rgb, RgbHue};
+
+use switchable_boundary_condition::SwitchableBoundaryCondition;
 
 fn draw_cube(field: &mut DataField, (x, y): (isize, isize), temperature: f32) {
     for y in y - 5..y + 5 {
@@ -58,7 +62,7 @@ pub struct App {
     gl: GlGraphics,
     solver: Solver<ThermalConduction,
                    Dirichlet,
-                   Dirichlet,
+                   SwitchableBoundaryCondition<Dirichlet, Neumann>,
                    Dirichlet,
                    Neumann>,
     mouse_coord: (f64, f64),
@@ -72,7 +76,7 @@ impl App {
         let equation = ThermalConduction;
 
         let boundary_conditions = BoundaryConditions::new(Dirichlet(0.0),
-                                                          Dirichlet(10.0),
+                                                          SwitchableBoundaryCondition::new(Dirichlet(10.0), Neumann),
                                                           Dirichlet(5.0),
                                                           Neumann);
 
@@ -130,6 +134,9 @@ impl App {
 
     fn handle_key_press(&mut self, key: Key) {
         match key {
+            Key::Space => {
+                self.solver.boundary_conditions.down.toggle();
+            }
             _ => {}
         }
     }

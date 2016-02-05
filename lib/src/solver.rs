@@ -13,7 +13,7 @@ pub struct Solver<D, BU, BD, BL, BR>
           BR: BoundaryCondition
 {
     differential_equation: D,
-    boundary_conditions: BoundaryConditions<BU, BD, BL, BR>,
+    pub boundary_conditions: BoundaryConditions<BU, BD, BL, BR>,
     dimensions: (usize, usize),
     delta_t: f32,
     h: f32,

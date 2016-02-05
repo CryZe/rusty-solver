@@ -16,10 +16,10 @@ pub struct BoundaryConditions<BU, BD, BL, BR>
           BL: BoundaryCondition,
           BR: BoundaryCondition
 {
-    up: BU,
-    down: BD,
-    left: BL,
-    right: BR,
+    pub up: BU,
+    pub down: BD,
+    pub left: BL,
+    pub right: BR,
 }
 
 impl<BU, BD, BL, BR> BoundaryConditions<BU, BD, BL, BR>
