@@ -1,0 +1,15 @@
+[package]
+name = "rusty_solver"
+version = "0.1.0"
+authors = ["Christopher Serr <cryze92@gmail.com>"]
+
+[dependencies]
+piston = "*"
+piston2d-graphics = "*"
+pistoncore-glutin_window = "*"
+piston2d-opengl_graphics = "*"
+image = "0.6.1"
+palette = "0.2.0"
+
+[dependencies.lib_rusty_solver]
+path = "../lib/"
