@@ -35,4 +35,10 @@ impl DataField {
         let (nx, ny) = self.dimensions;
         x < nx && y < ny
     }
+
+    pub fn set(&mut self, coord: (usize, usize), value: f32) {
+        if self.contains(coord) {
+            self[coord] = value;
+        }
+    }
 }
