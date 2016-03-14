@@ -1,6 +1,8 @@
 mod thermal_conduction;
+mod phasefield_equation;
 
 pub use self::thermal_conduction::ThermalConduction;
+pub use self::phasefield_equation::PhaseFieldEquation;
 
 use DataField;
 

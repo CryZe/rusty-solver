@@ -48,7 +48,7 @@ pub fn draw_neumann_rectangle(field: &mut DataField,
     }
 }
 
-pub fn to_image(field: &DataField) -> RgbaImage {
+pub fn to_temperature_image(field: &DataField) -> RgbaImage {
     let (nx, ny) = field.dimensions;
     let mut image = RgbaImage::new(nx as u32, ny as u32);
 
@@ -63,6 +63,19 @@ pub fn to_image(field: &DataField) -> RgbaImage {
     for (x, y, pixel) in image.enumerate_pixels_mut() {
         let value = field[(x as usize, y as usize)] / 30.0;
         pixel.data = gradient.get(value).to_pixel();
+    }
+
+    image
+}
+
+pub fn to_greyscale_image(field: &DataField) -> RgbaImage {
+    let (nx, ny) = field.dimensions;
+    let mut image = RgbaImage::new(nx as u32, ny as u32);
+
+    for (x, y, pixel) in image.enumerate_pixels_mut() {
+        let value = field[(x as usize, y as usize)];
+        let brightness = (255.0 * value) as u8;
+        pixel.data = [brightness, brightness, brightness, 0xFF];
     }
 
     image

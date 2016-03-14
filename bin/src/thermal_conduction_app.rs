@@ -8,7 +8,7 @@ use piston::input::*;
 use opengl_graphics::{GlGraphics, OpenGL, Texture};
 use graphics::Transformed;
 
-use utils::{draw_cube, draw_neumann_rectangle, to_image};
+use utils::{draw_cube, draw_neumann_rectangle, to_temperature_image};
 use super::graphics;
 
 pub struct ThermalConductionApp {
@@ -57,7 +57,7 @@ impl ThermalConductionApp {
         self.gl.draw(args.viewport(), |c, gl| {
             graphics::clear([0.0, 0.0, 0.0, 1.0], gl);
             let field = solver.get_field();
-            let field_image = to_image(field);
+            let field_image = to_temperature_image(field);
             let texture = Texture::from_image(&field_image);
             let image = graphics::Image::new();
             let w = args.width as f64 / 200.0;
