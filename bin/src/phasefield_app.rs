@@ -19,7 +19,8 @@ pub struct PhaseFieldApp {
                    SwitchableBoundaryCondition<Dirichlet, Neumann>,
                    Dirichlet>,
     mouse_coord: (f64, f64),
-    mouse_down: bool,
+    left_mouse_down: bool,
+    right_mouse_down: bool,
     window_scale: f64,
 }
 
@@ -49,7 +50,8 @@ impl PhaseFieldApp {
             gl: GlGraphics::new(opengl),
             solver: solver,
             mouse_coord: (0.0, 0.0),
-            mouse_down: false,
+            left_mouse_down: false,
+            right_mouse_down: false,
             window_scale: 5.0,
         }
     }
@@ -83,12 +85,14 @@ impl PhaseFieldApp {
         let (mouse_x, mouse_y) = self.mouse_coord;
         let cube_coord = ((mouse_x / self.window_scale) as isize,
                           (mouse_y / self.window_scale) as isize);
-        let cube_phi = if self.mouse_down {
-            1.0
-        } else {
-            0.0
-        };
-        draw_cube(self.solver.get_field_mut(), cube_coord, cube_phi);
+        if self.left_mouse_down || self.right_mouse_down {
+            let cube_phi = if self.left_mouse_down {
+                1.0
+            } else {
+                0.0
+            };
+            draw_cube(self.solver.get_field_mut(), cube_coord, cube_phi);
+        }
 
         self.solver.solve_next_frame();
     }
@@ -111,7 +115,10 @@ impl PhaseFieldApp {
     fn handle_mouse_click(&mut self, button: MouseButton, press: bool) {
         match button {
             MouseButton::Left => {
-                self.mouse_down = press;
+                self.left_mouse_down = press;
+            }
+            MouseButton::Right => {
+                self.right_mouse_down = press;
             }
             _ => {}
         }
