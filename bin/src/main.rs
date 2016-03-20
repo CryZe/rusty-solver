@@ -7,8 +7,6 @@ extern crate image;
 extern crate palette;
 
 mod switchable_boundary_condition;
-mod thermal_conduction_app;
-mod phasefield_app;
 mod utils;
 
 use piston::window::WindowSettings;
@@ -17,8 +15,11 @@ use piston::input::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::OpenGL;
 
-use thermal_conduction_app::ThermalConductionApp;
-use phasefield_app::PhaseFieldApp;
+// mod thermal_conduction_app;
+// use thermal_conduction_app::ThermalConductionApp as App;
+
+mod phasefield_app;
+use phasefield_app::PhaseFieldApp as App;
 
 fn main() {
     let opengl = OpenGL::V2_1;
@@ -32,7 +33,7 @@ fn main() {
                                  .build()
                                  .unwrap();
 
-    let mut app = PhaseFieldApp::new(opengl, dimensions);
+    let mut app = App::new(opengl, dimensions);
 
     let mut event_loop = window.events();
     event_loop.set_max_fps(60);

@@ -1,3 +1,6 @@
+extern crate num_cpus;
+extern crate scoped_threadpool;
+
 pub mod boundary_condition;
 mod data_field;
 pub mod differential_equation;
